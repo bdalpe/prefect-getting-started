@@ -50,6 +50,7 @@ getting-started/
 ## Available Examples
 
 ### 1. ETL Workflows
+[View ETL Pipeline Documentation](etl/etl-s3-pipeline/README.md)
 - **S3 Pipeline**: Complete ETL workflow with AWS S3
 - **Snowflake Pipeline**: Data warehouse ETL patterns
 - **Postgres Pipeline**: Database ETL examples
@@ -59,13 +60,8 @@ getting-started/
 - **Docker**: Containerized flow deployments
 - **Serverless**: Serverless deployment patterns
 
-### 3. Machine Learning Workflows
-- **Training Flows**: Model training pipelines
-- **Inference Flows**: Model serving patterns
 
-### 4. API Integrations
-- **REST API**: REST API integration patterns
-- **GraphQL**: GraphQL workflow examples
+
 
 ## Getting Started
 
