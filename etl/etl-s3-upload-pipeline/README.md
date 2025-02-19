@@ -1,138 +1,123 @@
 # GitHub Repository ETL Pipeline
 
-This pipeline demonstrates a complete ETL (Extract, Transform, Load) workflow using Prefect and AWS S3. It processes GitHub repository data through multiple stages of transformation and validation.
+This example demonstrates two approaches to building ETL pipelines with Prefect, letting you choose how much of Prefect's functionality you want to use:
 
-## Getting Started
+1. **Full Prefect Integration** (`full-example-etl.py`): Uses Prefect's advanced feature set
+2. **Orchestration Only** (`simple-example-etl.py`): Uses Prefect just for workflow orchestration
 
-### Setting up your environment
+## Approach 1: Full Prefect Integration
 
-1. Install uv (if not already installed):
+Use this approach when you want to leverage Prefect's complete feature set:
+
+### Features
+- Prefect Blocks for AWS credentials management
+- Built-in S3 integration with `prefect-aws`
+- Email notifications using `prefect-email`
+- Human-in-the-loop capabilities
+- Automatic retries and error handling
+- Flow run tracking and observability
+
+### Setup
+1. Configure Prefect Blocks:
    ```bash
-   pip install uv
-   ```
-
-2. Create and activate a virtual environment:
-   ```bash
-   uv venv
-   source .venv/bin/activate  # On Unix/macOS
-   # or
-   .venv\Scripts\activate  # On Windows
-   ```
-
-3. Install dependencies:
-   ```bash
-   uv pip install -r requirements.txt
-   ```
-
-### Requirements
-```
-prefect>=2.14.0
-prefect-aws>=0.3.8
-prefect-email>=0.3.5
-httpx>=0.25.0
-pandas>=2.0.0
-pydantic>=2.0.0
-boto3>=1.28.0
-```
-
-### Prefect Blocks Setup
-The pipeline requires the following Prefect blocks to be configured:
-
-1. AWS Credentials Block:
-   ```bash
+   # Register required blocks
    prefect block register -m prefect_aws
-   ```
-   Then create an AWS credentials block with your AWS credentials.
-
-2. Email Credentials Block:
-   ```bash
    prefect block register -m prefect_email
+   
+   # Create blocks in UI:
+   # - AWS Credentials
+   # - S3 Bucket
+   # - Email Server Credentials
    ```
-   Create an email server credentials block with your email settings.
 
-## Configuration
-
-The pipeline can be configured using either:
-
-1. **Direct Implementation** (`hello.py`):
-   - Uses hardcoded values
-   - Ready for immediate use with specific settings
-
-2. **Configurable Version** (`example-etl.py`):
-   - Customize these variables at the top of the file:
+2. Update configuration in `full-example-etl.py`:
    ```python
-   AWS_CREDENTIALS_BLOCK = "your-aws-credentials-block-name"
-   S3_BUCKET_NAME = "your-s3-bucket-name"
-   AWS_REGION = "your-aws-region"
-   EMAIL_CREDENTIALS_BLOCK = "your-email-credentials-block-name"
+   AWS_CREDENTIALS_BLOCK = "my-aws-creds"
+   S3_BUCKET_NAME = "my-etl-bucket"
+   AWS_REGION = "us-east-1"
+   EMAIL_CREDENTIALS_BLOCK = "my-email-notifications"
    NOTIFICATION_EMAIL = "your-email@example.com"
-   MIN_STARS_THRESHOLD = 10  # Minimum stars required
    ```
 
-## Human-in-the-Loop Input
+### Running
+```bash
+python full-example-etl.py
+```
+Then enter repository name in Prefect UI when prompted.
 
-The pipeline begins with a human-in-the-loop step using Prefect's UI:
-- Pauses for manual input of GitHub repository path
-- Expects format: `Organization/Repository` (e.g., "PrefectHQ/prefect")
-- Resumes processing after input is provided
+## Approach 2: Orchestration Only
 
-## Pipeline Overview
+Use this approach when you want to:
+- Keep your existing AWS/infrastructure setup
+- Use Prefect primarily for workflow orchestration
+- Maintain direct control over AWS interactions
+- Simplify deployment and configuration
 
-The pipeline executes the following steps in sequence:
+### Features
+- Direct boto3 integration with AWS
+- Simpler configuration
+- Fewer dependencies
+- More control over AWS interactions
+- Still benefits from Prefect's orchestration
 
-1. **Data Extraction**
-   - Takes a GitHub repository path as input through Prefect's UI
-   - Requests repository data from GitHub API
-   - Stores raw data into AWS S3 bucket as `raw-data-example.txt`
+### Setup
+1. Configure AWS credentials as environment variables or AWS CLI
+2. Update configuration in `simple-example-etl.py`:
+   ```python
+   AWS_S3_BUCKET_NAME = 'my-bucket'
+   AWS_REGION = 'us-east-1'
+   AWS_ACCESS_KEY = 'my-access-key'
+   AWS_SECRET_KEY = 'my-secret-key'
+   ```
 
-2. **Data Transformation - Part 1**
-   - Reads the raw JSON dataset
-   - Flattens the nested JSON structure using pandas
-   - Saves flattened data as `flattened-data.txt`
+### Running
+```bash
+python simple-example-etl.py \
+  --repository "PrefectHQ/prefect" \
+  --min-stars 100 \
+  --output-bucket "my-etl-results"
+```
 
-3. **Data Validation**
-   - Validates data against GithubRepoSchema (name, full_name, stargazers_count, etc.)
-   - Checks business rules (e.g., stargazers count >= MIN_STARS_THRESHOLD)
-   - If validation fails:
-     - Sends error notification email
-     - Stops processing
-   - If validation succeeds:
-     - Continues to next steps
+## Choosing Your Approach
 
-4. **Data Cleaning**
-   - Structures data according to GithubRepoSchema
-   - Creates a clean, standardized format
-   - Saves cleaned data as `cleaned-data.json`
-   - Uploads to S3
+### Use Full Integration When You:
+- Want a complete Prefect-managed solution
+- Need built-in notifications
+- Want human-in-the-loop capabilities
+- Prefer using Prefect's block system
+- Need advanced error handling
 
-5. **Data Aggregation**
-   - Calculates engagement metrics:
-     - Total engagement (stars + watchers + forks)
-     - Individual metric totals
-     - Engagement ratio (stars/watchers)
-   - Adds timestamp
-   - Saves as `aggregated-data.json`
-   - Uploads to S3
-   - Sends completion notification
+### Use Orchestration Only When You:
+- Have existing AWS setup you want to keep
+- Prefer direct control over AWS interactions
+- Want simpler deployment
+- Need fewer dependencies
+- Are just getting started with Prefect
+
+## Common Features (Both Approaches)
+
+Both examples provide:
+- ETL workflow orchestration
+- GitHub API data extraction
+- Data validation with Pydantic
+- Data cleaning and transformation
+- Aggregation calculations
+- S3 storage integration
 
 ## Pipeline Flow
 
 ```mermaid
 graph TD
-    A[GitHub API] --> B[Raw S3 Storage]
+    A[Extract: GitHub API] --> B[Store Raw Data]
     B --> C[Flatten JSON]
-    C --> D{Schema & Business Rule Validation}
-    D -->|Fail| E[Send Error Email]
-    D -->|Pass| F[Clean Data]
-    F --> G[Store Cleaned Data in S3]
-    G --> H[Aggregate Metrics]
-    H --> I[Store Aggregated Data in S3]
-    I --> J[Send Success Email]
+    C --> D{Validate Data}
+    D -->|Pass| E[Clean Data]
+    E --> F[Store Cleaned Data]
+    F --> G[Aggregate Metrics]
+    G --> H[Store Final Results]
 ```
 
 ## Data Schema
-
-The pipeline validates and processes the following GitHub repository metrics:
 
 ```python
 class GithubRepoSchema(BaseModel):
@@ -143,27 +128,20 @@ class GithubRepoSchema(BaseModel):
     forks_count: int
 ```
 
-## S3 Storage Structure
+## Getting Started
 
-Data is stored in AWS S3 with the following structure:
-- Raw data: `s3://{bucket_name}/raw-data-example.txt`
-- Cleaned data: `s3://{bucket_name}/cleaned-data.json`
-- Aggregated data: `s3://{bucket_name}/aggregated-data.json`
-
-## Notifications
-
-The pipeline includes email notifications for:
-- Validation failures (with error details and flow run link)
-- Successful completion (with flow run link)
-
-## Usage
-
-1. For customized configuration:
-   - Copy `example-etl.py`
-   - Update configuration variables at the top
-   - Run:
+1. Clone the repository
+2. Choose your approach (full or orchestration-only)
+3. Install dependencies:
    ```bash
-   python example-etl.py
+   pip install -r requirements.txt
    ```
+4. Follow setup for your chosen approach
+5. Run the example
 
-When prompted in the Prefect UI, enter a GitHub repository path (e.g., "PrefectHQ/prefect").
+## Prerequisites
+
+- Python 3.12 or higher
+- AWS account and credentials
+- Prefect Cloud account (for full integration)
+- GitHub API access
