@@ -30,7 +30,7 @@ deployments:
   description: ETL pipeline for CI/CD
   schedule: {}
   flow_name: etl-cicd-pipeline
-  entrypoint: ./etl-cicd-pipeline/filled-example-etl.py
+  entrypoint: filled-example-etl.py:main
   parameters: {}
   work_pool:
     name: managed-pool
