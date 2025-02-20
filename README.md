@@ -7,9 +7,9 @@ A collection of practical, production-ready Prefect workflow examples designed t
 ### Data Pipeline Examples
 1. [ETL Workflows](#etl-workflows)
    - [AWS S3 Pipeline](data-pipelines/etl/s3_pipeline/README.md) - Complete ETL workflow example
-   - [Snowflake Pipeline](data-pipelines/etl/snowflake/README.md) - Data warehouse ETL _(Coming Soon)_
-2. [Streaming Data](#streaming-data)
-   - Real-time data processing _(Coming Soon)_
+   <!-- - [Snowflake Pipeline](data-pipelines/etl/snowflake/README.md) - Data warehouse ETL _(Coming Soon)_
+<!-- 2. [Streaming Data](#streaming-data) -->
+   <!-- - Real-time data processing _(Coming Soon)_
    - Event-driven pipelines _(Coming Soon)_
 
 ### Common Patterns
@@ -25,7 +25,7 @@ A collection of practical, production-ready Prefect workflow examples designed t
    - [Slack Integration](monitoring/notifications/slack/README.md) - Slack notifications
 2. [Logging Patterns](monitoring/logging/README.md)
    - Custom logging implementations
-   - Monitoring strategies
+   - Monitoring strategies -->
 
 ## Use Case Examples
 
