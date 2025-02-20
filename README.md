@@ -2,11 +2,9 @@
 
 A collection of practical, production-ready Prefect workflow examples designed to solve real business problems. Each example is fully documented and ready to adapt to your needs.
 
-## Table of Contents
-
-### Data Pipeline Examples
+<!-- ### Data Pipeline Examples
 1. [ETL Workflows](#etl-workflows)
-   - [AWS S3 Pipeline](data-pipelines/etl/s3_pipeline/README.md) - Complete ETL workflow example
+   - [AWS S3 Pipeline](data-pipelines/etl/s3_pipeline/README.md) - Complete ETL workflow example -->
    <!-- - [Snowflake Pipeline](data-pipelines/etl/snowflake/README.md) - Data warehouse ETL _(Coming Soon)_
 <!-- 2. [Streaming Data](#streaming-data) -->
    <!-- - Real-time data processing _(Coming Soon)_
