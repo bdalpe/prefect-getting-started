@@ -18,7 +18,9 @@ This example uses GitHub Actions to automate the deployment process. The CI/CD p
 4. Pushes the Docker image to Docker Hub
 5. Updates the deployment in Prefect Cloud
 
-The workflow is defined in `.github/workflows/deploy.yml` and follows the [Prefect CI/CD deployment guide](https://docs-3.prefect.io/v3/deploy/infrastructure-concepts/deploy-ci-cd#build-deployments-via-ci-cd).
+The workflow is defined in `.github/workflows/deploy.yml` and follows the [Prefect CI/CD deployment guide](https://docs-3.prefect.io/v3/deploy/infrastructure-concepts/deploy-ci-cd#build-deployments-via-ci-cd). 
+
+The marketplace doc is located here:[Prefect actions deploy](https://github.com/marketplace/actions/deploy-a-prefect-flow)
 
 ### GitHub Actions Workflow
 
