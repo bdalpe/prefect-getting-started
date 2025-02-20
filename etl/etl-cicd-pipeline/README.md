@@ -1,6 +1,12 @@
 # ETL CI/CD Pipeline Example
 
 This example demonstrates how to build an ETL (Extract, Transform, Load) pipeline with CI/CD integration using Prefect.
+## GitHub Repository Secrets
+
+For the CI/CD pipeline to work properly, you need to configure the following secrets in your GitHub repository settings (Settings > Secrets and variables > Actions):
+
+
+
 
 ## CI/CD Pipeline
 
@@ -23,6 +29,32 @@ The pipeline uses these key steps:
 3. Configure the deployment to use the `etl-cicd-pipeline` environment
 4. Configure the deployment to use the `etl-cicd-pipeline` workpool
 5. Configure the deployment to use the `etl-cicd-pipeline` schedule
+
+### Required Secrets
+```
+# Prefect Authentication
+PREFECT_API_KEY=your-prefect-cloud-api-key
+PREFECT_API_URL=https://api.prefect.cloud/api/accounts/{ACCOUNT_ID}/workspaces/{WORKSPACE_ID}
+PREFECT_WORKSPACE=your-prefect-workspace
+
+# Docker Hub Authentication
+DOCKER_USERNAME=your-dockerhub-username
+DOCKER_PASSWORD=your-dockerhub-password
+
+```
+
+### Setting Up Secrets
+
+1. Navigate to your GitHub repository
+2. Go to Settings > Secrets and variables > Actions
+3. Click "New repository secret"
+4. Add each secret with its corresponding value
+
+### Security Notes
+- Never commit these secrets directly to your repository
+- Rotate credentials periodically
+- Use least-privilege access principles when creating service accounts
+- Consider using GitHub's OIDC provider for AWS authentication in production
 
 
 ## Overview
