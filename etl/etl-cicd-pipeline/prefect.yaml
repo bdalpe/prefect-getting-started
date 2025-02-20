@@ -27,13 +27,13 @@ deployments:
 - name: etl-cicd-pipeline
   version: null
   tags: []
-  description: null
+  description: ETL pipeline for CI/CD
   schedule: {}
-  flow_name: null
-  entrypoint: null
+  flow_name: etl-cicd-pipeline
+  entrypoint: ./etl-cicd-pipeline/filled-example-etl.py
   parameters: {}
   work_pool:
-    name: null
+    name: managed-pool
     work_queue_name: null
     job_variables:
         image: "{{ build-image.image }}"
