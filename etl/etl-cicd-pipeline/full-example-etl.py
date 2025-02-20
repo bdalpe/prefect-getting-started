@@ -317,7 +317,7 @@ def send_completion_notification(s3_url: str):
     except Exception as e:
         print(f"Failed to send notification: {str(e)}")
 
-@flow(name="etl_s3_pipeline")
+@flow(name="etl_cicd_pipeline")
 def main():
     """Main ETL pipeline flow"""
     # Step 0: Get the URL
