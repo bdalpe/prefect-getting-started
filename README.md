@@ -34,7 +34,7 @@ Currently Available:
   - Data validation and cleaning
   - S3 storage integration
   - Error handling and retries
-  - [View Documentation](data-pipelines/etl/s3_pipeline/README.md)
+  - [View Documentation](etl/etl-cicd-pipeline/README.md)
 
 ### 2. Common Patterns
 Learn essential patterns for building workflows:
